@@ -23,5 +23,7 @@ describe('users collection api endpoints', () => {
   after(function *() {
     yield db.collection('users').drop()
   })
-  describe('/POST login')
+  describe('/POST login', () => {
+    it('should login a user who already has an account')
+  })
 })

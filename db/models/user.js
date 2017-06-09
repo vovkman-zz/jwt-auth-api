@@ -23,18 +23,4 @@ let userSchema = new Schema({
   created: { type: Date, required: true, default: new Date() }
 })
 
-// userSchema.pre("save", function(next) {
-//   if (!this.isModified("password")) {
-//     return next();
-//   }
-//   bcrypt.hash(this.password, 7)
-//     .then( hash => {
-//       this.password = hash;
-//       next();
-//     })
-//     .catch( err => {
-//       next(err)
-//     })
-// })
-
 module.exports = mongoose.model('User', userSchema)
