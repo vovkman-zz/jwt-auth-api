@@ -25,4 +25,11 @@ app.use(function (req, res, next) {
   next()
 })
 
-app
+app.post('/signup', (req, res) => {
+  let user = req.body
+})
+app.post('/login', (req, res) => {
+  let credentials = req.body
+
+})
+
