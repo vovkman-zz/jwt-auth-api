@@ -30,11 +30,8 @@ describe('users collection api endpoints', () => {
         .post('/login')
         .send(testUser)
         .end((err, res) => {
-          res.should.have.status(201)
-          res.body.should.be.a('object')
-          res.body.should.have.property('_id')
-          res.body.should.have.property('name')
-          res.body.should.have.property('chats')
+          res.should.have.status(200)
+          res.body.should.have.property('token')
           done()
         })
     })

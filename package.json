@@ -5,10 +5,10 @@
   "main": "app.js",
   "scripts": {
     "unix-dev": "export NODE_ENV=dev && nodemon app.js",
-    "unix-test": "export NODE_ENV=test && mocha --require co-mocha test/**.spec.js",
+    "unix-test": "export NODE_ENV=test && mocha --require co-mocha test/**/**.spec.js",
     "unix-prod": "export NODE_ENV=prod && node app.js",
     "win-dev": "set NODE_ENV=dev && nodemon app.js",
-    "win-test": "set NODE_ENV=test && mocha --require co-mocha test/**.spec.js",
+    "win-test": "set NODE_ENV=test && mocha --require co-mocha test/**/**.spec.js",
     "win-prod": "set NODE_ENV=prod && node app.js"
   },
   "author": "Liam Vovk",

@@ -77,7 +77,7 @@ let generateToken = (user) => {
   return new Promise((resolve, reject) => {
     jwt.sign(claims, process.env.JWT_SECRET, (err, token) => {
       if (err) reject(err)
-      else resolve(token)
+      else resolve({ token: token })
     })
   })
 }

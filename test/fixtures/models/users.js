@@ -3,8 +3,8 @@
  */
 
 module.exports.user = {
-  name: 'Test User',
-  email: 'test@test.com',
+  name: 'Test User1',
+  email: 'test1@test.com',
   type: 'employer',
   password: 'InSwagWeTrustHomez'
 }
