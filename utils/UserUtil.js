@@ -28,8 +28,8 @@ class UserUtil {
         user.password = password_digest
         let newUser = new User(user)
         return newUser.save()
-          .then(() => {
-            return generateToken(user)
+          .then((savedUser) => {
+            return generateToken(savedUser)
           })
       })
   }
