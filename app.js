@@ -25,11 +25,26 @@ app.use(function (req, res, next) {
   next()
 })
 
-app.post('/signup', (req, res) => {
-  let user = req.body
-})
-app.post('/login', (req, res) => {
-  let credentials = req.body
+app.route('/login')
+  .post((req, res) => {
+    let credentials = req.body
+  })
+  .put((req, res) => {
 
+  })
+app.route('/signup')
+  .post((req, res) => {
+    let user = req.body
+  })
+
+db.catch((err) => {
+  console.log(err)
 })
+
+app.listen(app.get('port'), function () {
+  console.log('Server started: http://localhost:' + app.get('port') + '/')
+})
+
+module.exports = app // Exporting for testing purposes
+
 

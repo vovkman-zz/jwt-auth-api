@@ -11,6 +11,7 @@ let userSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
   password_digest: { type: String, required: true, match: /(?=.*[a-zA-Z])(?=.*[0-9]+).*/, minlength: 12},
+  type: { type: String, required: true, enum: ['worker', 'employer'] },
   created: { type: Date, required: true, default: new Date() }
 })
 
