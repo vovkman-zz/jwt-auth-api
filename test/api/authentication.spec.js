@@ -24,6 +24,19 @@ describe('users collection api endpoints', () => {
     yield db.collection('users').drop()
   })
   describe('/POST login', () => {
-    it('should login a user who already has an account')
+    it('should login a user who already has an account', done => {
+      let testUser = userFixtures.user
+      chai.request(app)
+        .post('/login')
+        .send(testUser)
+        .end((err, res) => {
+          res.should.have.status(201)
+          res.body.should.be.a('object')
+          res.body.should.have.property('_id')
+          res.body.should.have.property('name')
+          res.body.should.have.property('chats')
+          done()
+        })
+    })
   })
 })
