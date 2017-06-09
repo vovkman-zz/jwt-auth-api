@@ -36,8 +36,11 @@ class UserUtil {
   updatePassword (user) {
     return User.findOne({'_id': user._id})
       .then(updatedUser => {
-        updatedUser.password = user.password
-        return updatedUser.save()
+        digest(user.password)
+          .then(password_digest => {
+            user.password = password_digest
+            return updatedUser.save()
+          })
       })
   }
   updateEmail (user) {
