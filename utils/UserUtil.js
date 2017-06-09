@@ -2,7 +2,8 @@
  * Created by liamvovk on 2017-06-09.
  */
 
-let bcrypt = require('bcrypt')
+let Promise = require('bluebird')
+const bcrypt = Promise.promisifyAll(require('bcrypt'))
 let uuid = require('uuid/v4')
 let jwt = require('jsonwebtoken')
 
@@ -19,24 +20,23 @@ class UserUtil {
           }
           return Promise.reject(err)
         }
-        let password_digest = curUser.password
+        let passwordDigest = curUser.password
         return new Promise((resolve, reject) => {
-          bcrypt.compare(password, password_digest, (err, res) => {
-            if (!res) {
+          bcrypt.compare(password, passwordDigest, (err, res) => {
+            if (!res || err) {
               let err = {
                 error: 'The password you supplied was incorrect'
               }
               reject(err)
-            }
-            else resolve(generateToken(curUser))
+            } else resolve(generateToken(curUser))
           })
         })
       })
   }
   signup (user) {
     return digest(user.password)
-      .then(password_digest => {
-        user.password = password_digest
+      .then(passwordDigest => {
+        user.password = passwordDigest
         let newUser = new User(user)
         return newUser.save()
           .then((savedUser) => {
@@ -48,8 +48,8 @@ class UserUtil {
     return User.findOne({'_id': user._id})
       .then(updatedUser => {
         digest(user.password)
-          .then(password_digest => {
-            user.password = password_digest
+          .then(passwordDigest => {
+            user.password = passwordDigest
             return updatedUser.save()
           })
       })
@@ -62,7 +62,6 @@ class UserUtil {
       })
   }
 }
-
 
 let digest = (password) => {
   return bcrypt.hash(password, 7)

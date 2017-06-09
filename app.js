@@ -48,7 +48,7 @@ app.route('/signup')
         err = {
           error: err.message,
           name: err.name,
-          code: err.code,
+          code: err.code
         }
         res.status(400).send(err)
       })
@@ -63,5 +63,3 @@ app.listen(app.get('port'), function () {
 })
 
 module.exports = app // Exporting for testing purposes
-
-

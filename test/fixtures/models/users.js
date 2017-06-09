@@ -21,7 +21,7 @@ module.exports.noEmail = {
 module.exports.noPassword = {
   name: 'Test User',
   email: 'test@test.com',
-  type: 'employer',
+  type: 'employer'
 }
 module.exports.noType = {
   name: 'Test User',

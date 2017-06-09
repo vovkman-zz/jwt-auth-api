@@ -16,11 +16,11 @@ let app = require('../../app')
 let userFixtures = require('../fixtures/models/users')
 
 describe('users collection api endpoints', () => {
-  before(function *() {
+  before(function * () {
     db = yield db
     yield db.collection('users').insertMany(userFixtures.testCollection)
   })
-  after(function *() {
+  after(function * () {
     yield db.collection('users').drop()
   })
   describe('/POST login', () => {

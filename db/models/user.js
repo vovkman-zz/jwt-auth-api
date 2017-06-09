@@ -2,9 +2,7 @@
  * Created by Liam Vovk on 2017-06-08.
  */
 
-let mongoose = require("mongoose")
-let Promise = require("bluebird")
-const bcrypt = Promise.promisifyAll(require("bcrypt"))
+let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
 let userSchema = new Schema({
