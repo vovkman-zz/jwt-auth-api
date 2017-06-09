@@ -30,10 +30,12 @@ app.route('/login')
   .post((req, res) => {
     let credentials = req.body
     UserUtil.login(credentials)
-  })
-  .put((req, res) => {
-    let updateParams = req.body
-
+      .then(token => {
+        res.status(200).send(token)
+      })
+      .catch(err => {
+        res.status(401).send(err)
+      })
   })
 app.route('/signup')
   .post((req, res) => {
@@ -44,7 +46,7 @@ app.route('/signup')
       })
       .catch(err => {
         err = {
-          message: err.message,
+          error: err.message,
           name: err.name,
           code: err.code,
         }

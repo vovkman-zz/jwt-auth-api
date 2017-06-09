@@ -11,8 +11,14 @@ let User = require('../db/models/user')
 class UserUtil {
   login (user) {
     let password = user.password
-    return User.findOne({'_id': user._id})
+    return User.findOne({'email': user.email})
       .then(curUser => {
+        if (curUser === null) {
+          let err = {
+            error: 'You do not have an account. Please sign up'
+          }
+          return Promise.reject(err)
+        }
         let password_digest = curUser.password
         return new Promise((resolve, reject) => {
           bcrypt.compare(password, password_digest, (err, res) => {
