@@ -17,30 +17,20 @@ class UserUtil {
         return new Promise((resolve, reject) => {
           bcrypt.compare(password, password_digest, (err, res) => {
             if (err) reject(err)
-            else resolve(this.generateToken(curUser))
+            else resolve(generateToken(curUser))
           })
         })
       })
   }
-  generateToken (user) {
-    let claims = {
-      _id: user._id,
-      name: user.name,
-      type: user.type,
-      jti: uuid()
-    }
-    return new Promise((resolve, reject) => {
-      jwt.sign(claims, process.env.JWT_SECRET, (err, token) => {
-        if (err) reject(err)
-        else resolve(token)
-      })
-    })
-  }
   signup (user) {
-    let newUser = new User(user)
-    return newUser.save()
-      .then(user => {
-        return this.generateToken(user)
+    return digest(user.password)
+      .then(password_digest => {
+        user.password = password_digest
+        let newUser = new User(user)
+        return newUser.save()
+          .then(() => {
+            return generateToken(user)
+          })
       })
   }
   updatePassword (user) {
@@ -57,6 +47,26 @@ class UserUtil {
         return updatedUser.save()
       })
   }
+}
+
+
+let digest = (password) => {
+  return bcrypt.hash(password, 7)
+}
+
+let generateToken = (user) => {
+  let claims = {
+    _id: user._id,
+    name: user.name,
+    type: user.type,
+    jti: uuid()
+  }
+  return new Promise((resolve, reject) => {
+    jwt.sign(claims, process.env.JWT_SECRET, (err, token) => {
+      if (err) reject(err)
+      else resolve(token)
+    })
+  })
 }
 
 module.exports = () => { return new UserUtil() }
