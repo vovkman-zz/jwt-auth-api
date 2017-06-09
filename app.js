@@ -7,6 +7,7 @@ let bodyParser = require('body-parser')
 let app = express()
 
 let db = require('./db/connect/connect')
+let UserUtil = require('./utils/UserUtil')
 
 app.set('port', (process.env.port || 3000))
 
@@ -28,8 +29,10 @@ app.use(function (req, res, next) {
 app.route('/login')
   .post((req, res) => {
     let credentials = req.body
+    LoginUtil.login(credentials)
   })
   .put((req, res) => {
+    let updateParams = req.body
 
   })
 app.route('/signup')
