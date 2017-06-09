@@ -22,7 +22,12 @@ class UserUtil {
         let password_digest = curUser.password
         return new Promise((resolve, reject) => {
           bcrypt.compare(password, password_digest, (err, res) => {
-            if (err) reject(err)
+            if (!res) {
+              let err = {
+                error: 'The password you supplied was incorrect'
+              }
+              reject(err)
+            }
             else resolve(generateToken(curUser))
           })
         })
