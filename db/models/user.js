@@ -15,23 +15,21 @@ let userSchema = new Schema({
     required: true,
     match: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
   },
-  password_digest: {
+  password: {
     type: String,
-    required: true,
-    match: /(?=.*[a-zA-Z])(?=.*[0-9]+).*/,
-    minlength: 12
+    required: true
   },
   type: { type: String, required: true, enum: ['worker', 'employer'] },
   created: { type: Date, required: true, default: new Date() }
 })
 
-userSchema.pre("save", next => {
+userSchema.pre("save", function(next) {
   if (!this.isModified("password")) {
     return next();
   }
-  bcrypt.hash(this.password, 16.5)
+  bcrypt.hash(this.password, 7)
     .then( hash => {
-      this.password_digest = hash;
+      this.password = hash;
       next();
     })
     .catch( err => {
