@@ -39,6 +39,10 @@ module.exports.invalidPassword = {
   email: 'test1@test.com',
   password: 'InSwagWeDontTrust'
 }
+module.exports.notInCollection = {
+  email: 'notfound@test.com',
+  password: 'InSwagTrust'
+}
 module.exports.testCollection = [
   {
     name: 'Test User1',

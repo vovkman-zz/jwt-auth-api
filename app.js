@@ -7,7 +7,7 @@ let bodyParser = require('body-parser')
 let app = express()
 
 let db = require('./db/connect/connect')
-let UserUtil = require('./utils/UserUtil')()
+let UserUtil = require('./utils/AuthUtil')()
 
 app.set('port', (process.env.port || 3000))
 

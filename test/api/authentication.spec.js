@@ -35,5 +35,16 @@ describe('users collection api endpoints', () => {
           done()
         })
     })
+    it('should not login a user who does not have an account', done => {
+      let testUser = userFixtures.notInCollection
+      chai.request(app)
+        .post('/login')
+        .send(testUser)
+        .end((err, res) => {
+          res.should.have.status(401)
+          res.body.should.have.property('error')
+          done()
+        })
+    })
   })
 })

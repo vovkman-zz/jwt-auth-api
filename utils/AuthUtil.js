@@ -9,7 +9,7 @@ let jwt = require('jsonwebtoken')
 
 let User = require('../db/models/user')
 
-class UserUtil {
+class AuthUtil {
   login (user) {
     let password = user.password
     return User.findOne({'email': user.email})
@@ -82,4 +82,4 @@ let generateToken = (user) => {
   })
 }
 
-module.exports = () => { return new UserUtil() }
+module.exports = () => { return new AuthUtil() }
