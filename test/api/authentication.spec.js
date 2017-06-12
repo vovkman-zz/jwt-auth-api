@@ -105,5 +105,16 @@ describe('users collection api endpoints', () => {
           done()
         })
     })
+    it('should not signup a user who didnt supply their type', done => {
+      let testUser = userFixtures.noType
+      chai.request(app)
+        .post('/signup')
+        .send(testUser)
+        .end((err, res) => {
+          res.should.have.status(400)
+          res.body.should.have.property('error')
+          done()
+        })
+    })
   })
 })

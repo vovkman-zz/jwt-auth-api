@@ -45,10 +45,12 @@ app.route('/signup')
         res.status(201).send(token)
       })
       .catch(err => {
-        err = {
-          error: err.message,
-          name: err.name,
-          code: err.code
+        if (err.message) {
+          err = {
+            error: err.message,
+            name: err.name,
+            code: err.code
+          }
         }
         res.status(400).send(err)
       })

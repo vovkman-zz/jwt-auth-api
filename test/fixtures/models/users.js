@@ -32,7 +32,6 @@ module.exports.noPassword = {
 module.exports.noType = {
   name: 'Test User',
   email: 'test@test.com',
-  type: 'employer',
   password: 'InSwagWeTrustHomez'
 }
 module.exports.invalidType = {
