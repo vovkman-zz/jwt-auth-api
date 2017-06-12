@@ -46,5 +46,30 @@ describe('users collection api endpoints', () => {
           done()
         })
     })
+    it('should not login a user who didnt supply the correct password', done => {
+      let testUser = userFixtures.invalidPassword
+      chai.request(app)
+        .post('/login')
+        .send(testUser)
+        .end((err, res) => {
+          res.should.have.status(401)
+          res.body.should.have.property('error')
+          done()
+        })
+    })
+  })
+  describe('/POST signup', () => {
+    it('should signup a new user', done => {
+
+    })
+    it('should not signup a user who already has an account', done => {
+
+    })
+    it('should not signup a user who didnt supply their name', done => {
+
+    })
+    it('should not signup a user who didnt supply their email', done => {
+
+    })
   })
 })

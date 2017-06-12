@@ -8,6 +8,7 @@ let uuid = require('uuid/v4')
 let jwt = require('jsonwebtoken')
 
 let User = require('../db/models/user')
+const Errors = require('../constants/errors')
 
 class AuthUtil {
   login (user) {
@@ -15,18 +16,14 @@ class AuthUtil {
     return User.findOne({'email': user.email})
       .then(curUser => {
         if (curUser === null) {
-          let err = {
-            error: 'You do not have an account. Please sign up'
-          }
+          const err = Errors.NO_ACCOUNT
           return Promise.reject(err)
         }
         let passwordDigest = curUser.password
         return new Promise((resolve, reject) => {
           bcrypt.compare(password, passwordDigest, (err, res) => {
             if (!res || err) {
-              let err = {
-                error: 'The password you supplied was incorrect'
-              }
+              const err = Errors.INCORRECT_PASSWORD
               reject(err)
             } else resolve(generateToken(curUser))
           })
