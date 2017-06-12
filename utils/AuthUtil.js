@@ -13,12 +13,8 @@ const Errors = require('../constants/errors')
 class AuthUtil {
   login (user) {
     let password = user.password
-    return User.findOne({'email': user.email})
+    return userExists({'email': user.email})
       .then(curUser => {
-        if (curUser === null) {
-          const err = Errors.NO_ACCOUNT
-          return Promise.reject(err)
-        }
         let passwordDigest = curUser.password
         return new Promise((resolve, reject) => {
           bcrypt.compare(password, passwordDigest, (err, res) => {
@@ -42,7 +38,7 @@ class AuthUtil {
       })
   }
   updatePassword (user) {
-    return User.findOne({'_id': user._id})
+    return userExists({'_id': user._id})
       .then(updatedUser => {
         digest(user.password)
           .then(passwordDigest => {
@@ -52,7 +48,7 @@ class AuthUtil {
       })
   }
   updateEmail (user) {
-    return User.findOne({'_id': user._id})
+    return userExists({'_id': user._id})
       .then(updatedUser => {
         updatedUser.email = user.email
         return updatedUser.save()
@@ -79,4 +75,14 @@ let generateToken = (user) => {
   })
 }
 
+let userExists = (user) => {
+  return User.findOne(user)
+    .then(curUser => {
+      if (curUser === null) {
+        const err = Errors.NO_ACCOUNT
+        return Promise.reject(err)
+      }
+      else return curUser
+    })
+}
 module.exports = () => { return new AuthUtil() }
