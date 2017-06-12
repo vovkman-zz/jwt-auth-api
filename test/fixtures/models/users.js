@@ -8,6 +8,12 @@ module.exports.user = {
   type: 'employer',
   password: 'InSwagWeTrustHomez'
 }
+module.exports.newUser = {
+  name: 'New User',
+  email: 'newUser@test.com',
+  type: 'employer',
+  password: 'InSwagWeTrustHomez'
+}
 module.exports.noName = {
   email: 'test@test.com',
   type: 'employer',

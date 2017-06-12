@@ -8,12 +8,14 @@ const chaiHttp = require('chai-http')
 chai.use(chaiAsPromised)
 chai.use(chaiHttp)
 let should = chai.should()
+let expect = chai.expect
 
 let connectionString = require('../../db/config/connection_string')
 let mongo = require('mongodb').MongoClient
 let db = mongo.connect(connectionString)
 let app = require('../../app')
 let userFixtures = require('../fixtures/models/users')
+const Errors = require('../../constants/errors')
 
 describe('users collection api endpoints', () => {
   before(function * () {
@@ -42,7 +44,7 @@ describe('users collection api endpoints', () => {
         .send(testUser)
         .end((err, res) => {
           res.should.have.status(401)
-          res.body.should.have.property('error')
+          expect(res.body).to.deep.equal(Errors.NO_ACCOUNT)
           done()
         })
     })
@@ -53,23 +55,55 @@ describe('users collection api endpoints', () => {
         .send(testUser)
         .end((err, res) => {
           res.should.have.status(401)
-          res.body.should.have.property('error')
+          expect(res.body).to.deep.equal(Errors.INCORRECT_PASSWORD)
           done()
         })
     })
   })
   describe('/POST signup', () => {
     it('should signup a new user', done => {
-
+      let testUser = userFixtures.newUser
+      chai.request(app)
+        .post('/signup')
+        .send(testUser)
+        .end((err, res) => {
+          res.should.have.status(201)
+          res.body.should.have.property('token')
+          done()
+        })
     })
     it('should not signup a user who already has an account', done => {
-
+      let testUser = userFixtures.user
+      chai.request(app)
+        .post('/signup')
+        .send(testUser)
+        .end((err, res) => {
+          res.should.have.status(400)
+          res.body.should.have.property('error')
+          done()
+        })
     })
     it('should not signup a user who didnt supply their name', done => {
-
+      let testUser = userFixtures.noName
+      chai.request(app)
+        .post('/signup')
+        .send(testUser)
+        .end((err, res) => {
+          res.should.have.status(400)
+          res.body.should.have.property('error')
+          done()
+        })
     })
     it('should not signup a user who didnt supply their email', done => {
-
+      let testUser = userFixtures.noEmail
+      chai.request(app)
+        .post('/signup')
+        .send(testUser)
+        .end((err, res) => {
+          res.should.have.status(400)
+          res.body.should.have.property('error')
+          done()
+        })
     })
   })
 })
