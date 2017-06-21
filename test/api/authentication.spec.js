@@ -83,17 +83,6 @@ describe('users collection api endpoints', () => {
           done()
         })
     })
-    it('should not signup a user who didnt supply their name', done => {
-      let testUser = userFixtures.noName
-      chai.request(app)
-        .post('/signup')
-        .send(testUser)
-        .end((err, res) => {
-          res.should.have.status(400)
-          res.body.should.have.property('error')
-          done()
-        })
-    })
     it('should not signup a user who didnt supply their email', done => {
       let testUser = userFixtures.noEmail
       chai.request(app)
