@@ -36,6 +36,16 @@ class AuthUtil {
             return generateToken(savedUser)
           })
       })
+      .catch(err => {
+        if (err.message) {
+          err = {
+            error: err.message,
+            name: err.name,
+            code: err.code
+          }
+        }
+        return Promise.reject(err)
+      })
   }
   updatePassword (user) {
     return userExists({'_id': user._id})
