@@ -5,7 +5,7 @@
 let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
-let userSchema = new Schema({
+let credentialSchema = new Schema({
   email: {
     type: String,
     index: { unique: true },
@@ -20,4 +20,4 @@ let userSchema = new Schema({
   created: { type: Date, required: true, default: new Date() }
 })
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('Credential', credentialSchema)

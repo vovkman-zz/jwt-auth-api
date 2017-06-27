@@ -7,7 +7,7 @@ const bcrypt = Promise.promisifyAll(require('bcrypt'))
 let uuid = require('uuid/v4')
 let jwt = require('jsonwebtoken')
 
-let User = require('../db/models/user')
+let User = require('../db/models/credential')
 const Errors = require('../constants/errors')
 
 class AuthUtil {
