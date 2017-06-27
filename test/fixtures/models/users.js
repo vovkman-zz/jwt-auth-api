@@ -4,26 +4,21 @@
 
 module.exports.user = {
   email: 'test1@test.com',
-  type: 'employer',
   password: 'InSwagWeTrustHomez'
 }
 module.exports.newUser = {
   email: 'newUser@test.com',
-  type: 'employer',
   password: 'InSwagWeTrustHomez'
 }
 module.exports.noName = {
   email: 'test@test.com',
-  type: 'employer',
   password: 'InSwagWeTrustHomez'
 }
 module.exports.noEmail = {
-  type: 'employer',
   password: 'InSwagWeTrustHomez'
 }
 module.exports.noPassword = {
-  email: 'test@test.com',
-  type: 'employer'
+  email: 'test@test.com'
 }
 module.exports.noType = {
   email: 'test@test.com',
@@ -31,12 +26,10 @@ module.exports.noType = {
 }
 module.exports.invalidEmail = {
   email: 'test_test.com',
-  type: 'employer',
   password: 'InSwagWeTrustHomez'
 }
 module.exports.invalidType = {
   email: 'test@test.com',
-  type: 'swaggerJack',
   password: 'InSwagWeTrustHomez'
 }
 module.exports.invalidPassword = {
@@ -50,17 +43,14 @@ module.exports.notInCollection = {
 module.exports.testCollection = [
   {
     email: 'test1@test.com',
-    type: 'employer',
     password: '$2a$07$UuE3NjkJ1WHDZdQT90xav.1yma7leFTHWCPpIvSegFgqVoUIeaTe.'
   },
   {
     email: 'test2@test.com',
-    type: 'worker',
     password: '$2a$07$UuE3NjkJ1WHDZdQT90xav.1yma7leFTHWCPpIvSegFgqVoUIeaTe.'
   },
   {
     email: 'test3@test.com',
-    type: 'employer',
     password: '$2a$07$UuE3NjkJ1WHDZdQT90xav.1yma7leFTHWCPpIvSegFgqVoUIeaTe.'
   }
 ]

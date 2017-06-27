@@ -16,7 +16,6 @@ let credentialSchema = new Schema({
     type: String,
     required: true
   },
-  type: { type: String, required: true, enum: ['worker', 'employer'] },
   created: { type: Date, required: true, default: new Date() }
 })
 
