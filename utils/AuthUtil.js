@@ -7,7 +7,7 @@ const bcrypt = Promise.promisifyAll(require('bcrypt'))
 let uuid = require('uuid/v4')
 let jwt = require('jsonwebtoken')
 
-let User = require('../db/models/user')
+let Credential = require('../db/models/credential')
 const Errors = require('../constants/errors')
 
 class AuthUtil {
@@ -30,11 +30,21 @@ class AuthUtil {
     return digest(user.password)
       .then(passwordDigest => {
         user.password = passwordDigest
-        let newUser = new User(user)
+        let newUser = new Credential(user)
         return newUser.save()
           .then((savedUser) => {
             return generateToken(savedUser)
           })
+      })
+      .catch(err => {
+        if (err.message) {
+          err = {
+            error: err.message,
+            name: err.name,
+            code: err.code
+          }
+        }
+        return Promise.reject(err)
       })
   }
   updatePassword (user) {
@@ -76,7 +86,7 @@ let generateToken = (user) => {
 }
 
 let userExists = (user) => {
-  return User.findOne(user)
+  return Credential.findOne(user)
     .then(curUser => {
       if (curUser === null) {
         const err = Errors.NO_ACCOUNT

@@ -20,10 +20,10 @@ const Errors = require('../../constants/errors')
 describe('users collection api endpoints', () => {
   before(function * () {
     db = yield db
-    yield db.collection('users').insertMany(userFixtures.testCollection)
+    yield db.collection('credentials').insertMany(userFixtures.testCollection)
   })
   after(function * () {
-    yield db.collection('users').drop()
+    yield db.collection('credentials').drop()
   })
   describe('/POST login', () => {
     it('should login a user who already has an account', done => {
@@ -94,8 +94,8 @@ describe('users collection api endpoints', () => {
           done()
         })
     })
-    it('should not signup a user who didnt supply their type', done => {
-      let testUser = userFixtures.noType
+    it('should not signup a user with an invalid email', done => {
+      let testUser = userFixtures.invalidEmail
       chai.request(app)
         .post('/signup')
         .send(testUser)
