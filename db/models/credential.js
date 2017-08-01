@@ -16,7 +16,8 @@ let credentialSchema = new Schema({
     type: String,
     required: true
   },
-  created: { type: Date, required: true, default: new Date() }
+  created: { type: Date, required: true, default: new Date() },
+  type: { type: String, required: true, enum: ['worker', 'employer']}
 })
 
 module.exports = mongoose.model('Credential', credentialSchema)
