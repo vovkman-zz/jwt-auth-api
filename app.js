@@ -30,12 +30,8 @@ app.route('/login')
   .post((req, res) => {
     let credentials = req.body
     AuthUtil.login(credentials)
-      .then(token => {
-        res.status(200).send(token)
-      })
-      .catch(err => {
-        res.status(401).send(err)
-      })
+      .then(token => res.status(200).send(token))
+      .catch(err => res.status(401).send(err))
   })
 app.route('/signup')
   .post((req, res) => {
