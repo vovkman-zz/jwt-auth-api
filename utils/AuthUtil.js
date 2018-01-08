@@ -7,26 +7,19 @@ const bcrypt = Promise.promisifyAll(require('bcrypt'))
 let uuid = require('uuid/v4')
 let jwt = require('jsonwebtoken')
 
-let User = require('../db/models/user')
+let Credential = require('../db/models/credential')
+const Errors = require('../constants/errors')
 
-class UserUtil {
+class AuthUtil {
   login (user) {
     let password = user.password
-    return User.findOne({'email': user.email})
+    return userExists({'email': user.email})
       .then(curUser => {
-        if (curUser === null) {
-          let err = {
-            error: 'You do not have an account. Please sign up'
-          }
-          return Promise.reject(err)
-        }
         let passwordDigest = curUser.password
         return new Promise((resolve, reject) => {
           bcrypt.compare(password, passwordDigest, (err, res) => {
             if (!res || err) {
-              let err = {
-                error: 'The password you supplied was incorrect'
-              }
+              const err = Errors.INCORRECT_PASSWORD
               reject(err)
             } else resolve(generateToken(curUser))
           })
@@ -37,15 +30,25 @@ class UserUtil {
     return digest(user.password)
       .then(passwordDigest => {
         user.password = passwordDigest
-        let newUser = new User(user)
+        let newUser = new Credential(user)
         return newUser.save()
           .then((savedUser) => {
             return generateToken(savedUser)
           })
       })
+      .catch(err => {
+        if (err.message) {
+          err = {
+            error: err.message,
+            name: err.name,
+            code: err.code
+          }
+        }
+        return Promise.reject(err)
+      })
   }
   updatePassword (user) {
-    return User.findOne({'_id': user._id})
+    return userExists({'_id': user._id})
       .then(updatedUser => {
         digest(user.password)
           .then(passwordDigest => {
@@ -55,7 +58,7 @@ class UserUtil {
       })
   }
   updateEmail (user) {
-    return User.findOne({'_id': user._id})
+    return userExists({'_id': user._id})
       .then(updatedUser => {
         updatedUser.email = user.email
         return updatedUser.save()
@@ -82,4 +85,14 @@ let generateToken = (user) => {
   })
 }
 
-module.exports = () => { return new UserUtil() }
+let userExists = (user) => {
+  return Credential.findOne(user)
+    .then(curUser => {
+      if (curUser === null) {
+        const err = Errors.NO_ACCOUNT
+        return Promise.reject(err)
+      }
+      else return curUser
+    })
+}
+module.exports = () => { return new AuthUtil() }
